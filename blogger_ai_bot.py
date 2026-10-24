@@ -1,57 +1,95 @@
 import os
-import json
 from google import genai
-from google.oauth2 import service_account
-from googleapiclient.discovery import build
+from datetime import datetime
 
-# 1. إعداد ذكاء جوجل الاصطناعي بالمكتبة الحديثة كلياً
-GEMINI_KEY = 'AQ.Ab8RN6K2dItsEtRCZldolMlf3TzL6r0DQDInaT06Ks16i_TTmA'
+# 1. تهيئة ذكاء جوجل الاصطناعي (Gemini)
+# ضع مفتاح Gemini الخاص بك هنا
+GEMINI_KEY = 'اكتب_هنا_مفتاح_GEMINI_API_KEY'
 client = genai.Client(api_key=GEMINI_KEY)
 
 def generate_article():
     try:
-        # استخدام النموذج الرسمي والمستقر حالياً
         response = client.models.generate_content(
             model='gemini-1.5-flash',
-            contents="اكتب مقالاً تقنياً احترافياً ومفصلاً باللغة العربية عن 'مستقبل الذكاء الاصطناعي في عام 2026' مع العناوين الفرعية."
+            contents="اكتب مقالاً تقنياً احترافياً ومفصلاً باللغة العربية عن 'أفضل أدوات الذكاء الاصطناعي لتسهيل العمل اليومي في عام 2026' مع العناوين الفرعية وتنسيق مقالات الويب."
         )
         return response.text
     except Exception as e:
         print(f"❌ خطأ أثناء توليد المقال من Gemini: {e}")
         raise e
 
-# 2. إعداد الاتصال ببلوقر والنشر
-def publish_to_blogger(content):
-    blog_id = '6819029518868981101'
-    
-    if not os.path.exists('google_creds.json'):
-        raise FileNotFoundError("❌ خطأ: ملف 'google_creds.json' غير موجود في المستودع!")
-        
-    try:
-        scopes = ['https://googleapis.com']
-        with open('google_creds.json', 'r') as f:
-            creds_json = json.load(f)
-            
-        creds = service_account.Credentials.from_service_account_info(creds_json, scopes=scopes)
-        service = build('blogger', 'v3', credentials=creds)
-        
-        html_content = content.replace("\n", "<br>")
-        
-        post_body = {
-            "kind": "blogger#post",
-            "title": "مستقبل الذكاء الاصطناعي في عام 2026",
-            "content": html_content
-        }
-        
-        request = service.posts().insert(blogId=blog_id, body=post_body, isDraft=True)
-        response = request.execute()
-        print(f"🎉 تم بنجاح إنشاء المقال كمسودة! الرابط: {response['url']}")
-    except Exception as e:
-        print(f"❌ خطأ أثناء الاتصال أو النشر على Blogger: {e}")
-        raise e
-
 if __name__ == "__main__":
-    print("⏳ جاري توليد المحتوى من Gemini...")
-    article_text = generate_article()
-    print("⏳ جاري نشر المقال على بلوقر...")
-    publish_to_blogger(article_text)
+    print("⏳ جاري توليد المقال الربحي من Gemini...")
+    content = generate_article()
+    
+    html_content = content.replace("\n", "<br>")
+    
+    # 💡 هنا تضع روابط التسويق بالعمولة الخاصة بك (Affiliate Links)
+    affiliate_link_1 = "https://amazon.com" # مثال لرابط منتج من أمازون
+    affiliate_link_2 = "https://hostinger.com" # مثال لرابط استضافة مواقف
+    
+    # بناء صفحة ويب احترافية تحتوي على مساحات إعلانية مدمجة
+    web_page = f"""
+    <!DOCTYPE html>
+    <html lang="ar" dir="rtl">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>مدونة الذكاء الاصطناعي والربح</title>
+        <style>
+            body {{ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background: #f8f9fa; color: #333; }}
+            .header {{ background: #2c3e50; color: white; padding: 20px; text-align: center; }}
+            .container {{ max-width: 900px; margin: 20px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }}
+            h1 {{ color: #2c3e50; }}
+            .date {{ color: #7f8c8d; font-size: 0.9em; }}
+            .content {{ font-size: 1.1em; line-height: 1.9; color: #444; }}
+            
+            /* 📢 تنسيق المساحات الإعلانية */
+            .ad-space {{ background: #fdf6e2; border: 2px dashed #f39c12; color: #d35400; text-align: center; padding: 20px; margin: 20px 0; border-radius: 6px; font-weight: bold; }}
+            
+            /* 💰 تنسيق روابط الأفلييت */
+            .affiliate-box {{ background: #e8f4fd; border-left: 5px solid #3498db; padding: 20px; margin-top: 30px; border-radius: 4px; }}
+            .btn-buy {{ display: inline-block; background: #e74c3c; color: white; padding: 10px 20px; text-align: center; text-decoration: none; border-radius: 4px; font-weight: bold; margin-top: 10px; }}
+            .btn-buy:hover {{ background: #c0392b; }}
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <h2>مدونة التقنية والذكاء الاصطناعي الذكية 🚀</h2>
+        </div>
+        
+        <div class="container">
+            <!-- 📢 مساحة إعلانية علوية (يمكنك لصق كود Adsterra أو Ezoic هنا لاحقاً) -->
+            <div class="ad-space">
+                📢 مساحة إعلانية متوفرة (تظهر هنا إعلانات الشركات البديلة للربح لكل 1000 ظهور)
+            </div>
+
+            <h1>أفضل أدوات الذكاء الاصطناعي لتسهيل العمل اليومي في عام 2026</h1>
+            <p class="date">📅 تاريخ النشر: {datetime.now().strftime('%Y-%m-%d')}</p>
+            <hr>
+            
+            <div class="content">
+                {html_content}
+            </div>
+
+            <!-- 📢 مساحة إعلانية وسط المقال لزيادة النقرات -->
+            <div class="ad-space">
+                📢 مساحة إعلانية مدمجة داخل المقال (لتحقيق أعلى نسبة نقرات وأرباح)
+            </div>
+
+            <!-- 💰 قسم التسويق بالعمولة (Affiliate Marketing) -->
+            <div class="affiliate-box">
+                <h3>💡 توصيات كاتب المقال (روابط مدفوعة):</h3>
+                <p>إذا كنت تبحث عن الأدوات والعتاد التقني الأفضل لتطبيق ما جاء في هذا المقال، ننصحك بالاطلاع على المنتجات التالية الموصى بها بشدة:</p>
+                <a href="{affiliate_link_1}" target="_blank" class="btn-buy">🛒 تسوق أفضل أجهزة المساعدة الذكية من أمازون</a>
+                <a href="{affiliate_link_2}" target="_blank" class="btn-buy" style="background:#2ecc71;">🌐 احصل على استضافة موقعك الخاص وابدأ مشروعك الآن</a>
+            </div>
+        </div>
+    </body>
+    </html>
+    """
+    
+    with open("index.html", "w", encoding="utf-8") as f:
+        f.write(web_page)
+        
+    print("🎉 تم تحديث القالب الربحي وحفظ الملف بنجاح!")
