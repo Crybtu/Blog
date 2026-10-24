@@ -1,1 +1,13 @@
-{"web":{"client_id":"994193944803-ae0ggrko678n2absjqfpcjl868l5suq0.apps.googleusercontent.com","project_id":"deft-epigram-185513","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_secret":"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","redirect_uris":["https://10227ed1-099b-4e58-a5f7-7f267aadbd8f-00-1pcjrr2hy6bml.sisko.replit.dev/api/blogger/oauth/callback"]}}
+{
+  "type": "service_account",
+  "project_id": "deft-epigram-185513",
+  "private_key_id": "5c2a91037546e0edffb6f13a0185a423e22254c6",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCyIFZaGK+BblA2\n2iB3mnEXgTQoghROL534Qhe7F9i1y0HVonE5YKG+XyXza6qPrKFgoiOay06u/o6H\nADuVQg4Rpfszdd9O+ZmXQVUz60PlNWvKEdK5cv5wq/7fQWYwfnpjsnOxPICSxTbO\nx2e/j30SS8s/vk2Vq8Gwb1U0bZj9ZxoVdliVujdUW4Cob2OJX7A9757H5wuCp8iN\nclDoGHilPn9mGEFHGs6bonwQaLAHT+GQp0+GLI4lFKGFDLt1BQ9Npv6xM7FI+Vvh\nGd+6egWWW1gABHWj0g6HorWurTxB+VFFqy1VyTgf+NgcA1puSsXbXbRiGqag1UB8\nOVGwaDNDAgMBAAECggEAKdKM49eS8Z1QiSh64gopjn7AG9i64sasXPtLrhqBv+Fq\n4jmjQvkM0PFvLDG12MkMFO/M003z+gN7vHfSBY/+VKd3jRQaa+UP6mMlGa0eAmWi\nGs5Hf1JgKl0/2PR2hWFU5C6kmlMdzxgt76wDEIekspSIMr3AYqlyrzXcuBQZjTlx\nGXek04R6Tlq+5IBfUsEcYqP+8QECuI/ExCtWVIrPg7YFL14Y3DLZyC9g7Zr+5+aa\nOpsAWeZyrOPWWxRtbs1u2Szm4YhbZSL53f9GDdiHvLdLu30cHSKdM8DJUDW8ujrl\nWcHSsAvOTupuzWQJMQJg6726Z8D73hsRUvrBhMK47QKBgQDeqg/Kdp5D6JFtTx1x\nEluKE69v2m8rdQ494DWAqh0YBISRDcLrLzxATyTjoeUAt1xSpoCplUcQjqMMvv9A\nFJdeXKG6Q1Cfbx2t1KjHPx/mt3CWPKB81/wu0UX/FmjOeGcekRluRWcwWiYx9ubY\nKQ63mV6Hq1Tk9SZQVlqtYp2hrwKBgQDMy0qiMxXDzyCXcQ54ihdrq3RntZPUahe6\nHAd1f43KFJF9Dt5WVF2pdTkspEC2fisj0dDRuxzdfD+qmkSbqB5435bbD4bnEcKb\nqC+DH0x8O5vdm9BiZy/VCsC/7Zr3dUc9QCZdUPFEnDGAJBUjKjtVSXbZgUDkctPw\njgPmb2kQrQKBgQCDjXZG6E4ZUQ6axmNeqrnqmjbMnwGPa1k+tXjmy5rk1cZ87OR8\njyvJ0vi4hK4H/k1Nh5H8n3WdEqjCnxWvhnroBVKH+b1odP3T9hDBp0nxxe9+09L9\n753PC1WPoG3Ljtdd99xOijKtHpXyby10CM3pK3PuNAu0OiKo1Fw+lEUNgQKBgHuy\nmwznsFDKbhQrLKNwPX9CW5g82+LkhhpazcKR3fHehJY2AePBJ6WwcW1edNwFz0be\nd7QGwgOiBc6lSaV/YZB+9N6yPTiayKI+bxxTLl6nnpi3gaG+U+zphs0m1oB7rSD4\n+3NH7cMUWO3eXYoU+yujqQ7tfGXAWfWlwgNQ7fQtAoGBALbNpuxlga8AgO0T7BWW\nvKLPTe+iVNc9M1adk/ciaONDWbNEO0XVFFIVRpYiSiAuNc1994izsIsTUOsRTZTo\nLu7bi8zU5yVzmUuoC+jHjqQA7b/jtBJYkY+/I5dQgI0EHA8wpCewya4gmjaVuo7d\nBjU/voRiUEU9LwQA+B1C4oDV\n-----END PRIVATE KEY-----\n",
+  "client_email": "deft-epigram-185513@appspot.gserviceaccount.com",
+  "client_id": "111867761551637414889",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/deft-epigram-185513%40appspot.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
