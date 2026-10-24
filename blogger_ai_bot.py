@@ -5,12 +5,17 @@ from google.oauth2 import service_account
 from googleapiclient.discovery import build
 
 # 1. إعداد ذكاء جوجل الاصطناعي (Gemini)
+# ضع مفتاح Gemini الخاص بك هنا بدلاً من المكتوب
 GEMINI_KEY = 'AQ.Ab8RN6K2dItsEtRCZldolMlf3TzL6r0DQDInaT06Ks16i_TTmA'
-genai.configure(api_key=GEMINI_KEY)
+
+# تعديل جوهري لعام 2026: تحديد إصدار الواجهة لإلغاء خطأ v1beta 404
+os.environ["GOOGLE_API_USE_CLIENT_CERTIFICATE"] = "false"
+genai.configure(api_key=GEMINI_KEY, client_options={'api_version': 'v1'})
 
 def generate_article():
     try:
-        model = genai.GenerativeModel('gemini-pro')
+        # استخدام النسخة الأحدث والمستقرة والمجانية
+        model = genai.GenerativeModel('gemini-1.5-flash-latest')
         prompt = "اكتب مقالاً تقنياً احترافياً ومفصلاً باللغة العربية عن 'مستقبل الذكاء الاصطناعي في عام 2026' مع العناوين الفرعية."
         response = model.generate_content(prompt)
         return response.text
@@ -20,14 +25,14 @@ def generate_article():
 
 # 2. إعداد الاتصال ببلوقر والنشر
 def publish_to_blogger(content):
+    # ضع معرف مدونتك المكون من أرقام هنا بين العلامتين ''
     blog_id = '6819029518868981101'
-    
-    # التأكد من وجود ملف صلاحيات جوجل لمنع كود الانهيار المفاجئ
+
     if not os.path.exists('google_creds.json'):
-        raise FileNotFoundError("❌ خطأ: ملف 'google_creds.json' غير موجود في المستودع! تأكد من إنشائه.")
+        raise FileNotFoundError("❌ خطأ: ملف 'google_creds.json' غير موجود في المستودع!")
         
     try:
-        scopes = ['https://www.googleapis.com/auth/blogger']
+        scopes = ['https://googleapis.com']
         with open('google_creds.json', 'r') as f:
             creds_json = json.load(f)
             
@@ -45,8 +50,6 @@ def publish_to_blogger(content):
         request = service.posts().insert(blogId=blog_id, body=post_body, isDraft=True)
         response = request.execute()
         print(f"🎉 تم بنجاح إنشاء المقال كمسودة! الرابط: {response['url']}")
-    except json.JSONDecodeError:
-        print("❌ خطأ: محتوى ملف 'google_creds.json' ليس بتنسيق JSON صحيح. تأكد من نسخ الأقواس كاملة.")
     except Exception as e:
         print(f"❌ خطأ أثناء الاتصال أو النشر على Blogger: {e}")
         raise e
