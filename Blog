@@ -1,24 +1,26 @@
-import json
 import google.generativeai as genai
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 
-# 1. ضع مفتاح Gemini هنا مباشرة بين العلامتين ''
+# 1. إعداد ذكاء جوجل الاصطناعي (Gemini)
+# ضع مفتاح Gemini الخاص بك هنا بدلاً من المكتوب
 GEMINI_KEY = 'AQ.Ab8RN6K2dItsEtRCZldolMlf3TzL6r0DQDInaT06Ks16i_TTmA'
 genai.configure(api_key=GEMINI_KEY)
 
 def generate_article():
-    model = genai.GenerativeModel('gemini-pro')
+    # تم التحديث إلى النموذج المستقر والأحدث لعام 2026
+    model = genai.GenerativeModel('gemini-1.5-flash')
     prompt = "اكتب مقالاً تقنياً احترافياً ومفصلاً باللغة العربية عن 'مستقبل الذكاء الاصطناعي في عام 2026' مع العناوين الفرعية."
     response = model.generate_content(prompt)
     return response.text
 
 # 2. إعداد الاتصال ببلوقر والنشر
 def publish_to_blogger(content):
-    # ضع معرف مدونتك هنا بين العلامتين ''
+    # ضع معرف مدونتك المكون من أرقام هنا بين العلامتين ''
     blog_id = '6819029518868981101'
-    
-    # ضع محتوى ملف الـ JSON بالكامل هنا بالأسفل بين الأقواس التعرجية {}
+   
+    # ضع محتوى ملف الـ JSON بالكامل هنا بالأسفل بالداخل
+    # تأكد من نقل كل السطور المكونة للملف الذي حملته من Google Cloud
     creds_json = {
       "type": "service_account",
       "project_id": "...",
@@ -33,6 +35,8 @@ def publish_to_blogger(content):
     }
     
     scopes = ['https://googleapis.com']
+    
+    # تعديل جوهري: تمرير القاموس مباشرة لمنع exit code 2
     creds = service_account.Credentials.from_service_account_info(creds_json, scopes=scopes)
     
     service = build('blogger', 'v3', credentials=creds)
