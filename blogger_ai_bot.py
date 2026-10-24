@@ -11,7 +11,8 @@ def generate_article():
         english_prompt = "Write a comprehensive, professional, and detailed technology article entirely in Arabic about: 'The Future of Artificial Intelligence in 2026'. Include subtitles and standard web blog formatting."
         
         response = client.models.generate_content(
-            model='gemini-1.5-flash',
+model='gemini-2.5-flash',
+
             contents=english_prompt
         )
         return response.text
