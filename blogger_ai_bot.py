@@ -2,14 +2,12 @@ import os
 from google import genai
 from datetime import datetime
 
-# 1. تهيئة ذكاء جوجل الاصطناعي (Gemini)
-# ضع مفتاح Gemini الخاص بك هنا
-GEMINI_KEY = 'اكتب_هنا_مفتاح_GEMINI_API_KEY'
+# 💡 ضع مفتاح Gemini الخاص بك هنا بدلاً من كلمة your_api_key_here
+GEMINI_KEY = 'AQ.Ab8RN6K2dItsEtRCZldolMlf3TzL6r0DQDInaT06Ks16i_TTmA'
 client = genai.Client(api_key=GEMINI_KEY)
 
 def generate_article():
     try:
-        # تعديل جوهري: النص البرمجي بالإنجليزية وتوجيه الذكاء الاصطناعي للكتابة بالعربية لتفادي الـ UnicodeEncodeError
         english_prompt = "Write a comprehensive, professional, and detailed technology article entirely in Arabic about: 'The Future of Artificial Intelligence in 2026'. Include subtitles and standard web blog formatting."
         
         response = client.models.generate_content(
@@ -27,20 +25,18 @@ if __name__ == "__main__":
     
     html_content = content.replace("\n", "<br>")
     
-    # روابط الأفلييت الخاصة بك (يمكنك تركها كما هي أو تعديلها لاحقاً)
     affiliate_link_1 = "https://amazon.com"
     affiliate_link_2 = "https://hostinger.com"
     
-    # بناء صفحة ويب متكاملة مع مساحات إعلانية مدمجة
     web_page = f"""
     <!DOCTYPE html>
     <html lang="ar" dir="rtl">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>مدونة التقنية والذكاء الاصطناعي الذكية</title>
+        <title>Blog</title>
         <style>
-            body {{ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background: #f8f9fa; color: #333; }}
+            body {{ font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; background: #f8f9fa; color: #333; }}
             .header {{ background: #2c3e50; color: white; padding: 20px; text-align: center; }}
             .container {{ max-width: 900px; margin: 20px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }}
             h1 {{ color: #2c3e50; }}
