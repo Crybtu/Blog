@@ -4,7 +4,7 @@ from google import genai
 from datetime import datetime
 
 # 💡 ضع مفتاح Gemini الفعلي الخاص بك هنا
-GEMINI_KEY = 'your_api_key_here'
+GEMINI_KEY = 'AQ.Ab8RN6K2dItsEtRCZldolMlf3TzL6r0DQDInaT06Ks16i_TTmA'
 client = genai.Client(api_key=GEMINI_KEY)
 
 def generate_article():
