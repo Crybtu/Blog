@@ -1,22 +1,20 @@
 import os
 import json
-import google.generativeai as genai
+from google import genai
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 
-# 1. إعداد ذكاء جوجل الاصطناعي (Gemini)
-# ضع مفتاح Gemini الخاص بك هنا بدلاً من المكتوب
+# 1. إعداد ذكاء جوجل الاصطناعي بالمكتبة الحديثة كلياً
 GEMINI_KEY = 'AQ.Ab8RN6K2dItsEtRCZldolMlf3TzL6r0DQDInaT06Ks16i_TTmA'
-
-# الطريقة الصحيحة والمباشرة لتهيئة مكتبة Gemini الحديثة
-genai.configure(api_key=GEMINI_KEY)
+client = genai.Client(api_key=GEMINI_KEY)
 
 def generate_article():
     try:
-        # استخدام النموذج الأكثر استقراراً ومرونة المتوافق عالمياً
-        model = genai.GenerativeModel('gemini-1.5-flash')
-        prompt = "اكتب مقالاً تقنياً احترافياً ومفصلاً باللغة العربية عن 'مستقبل الذكاء الاصطناعي في عام 2026' مع العناوين الفرعية."
-        response = model.generate_content(prompt)
+        # استخدام النموذج الرسمي والمستقر حالياً
+        response = client.models.generate_content(
+            model='gemini-1.5-flash',
+            contents="اكتب مقالاً تقنياً احترافياً ومفصلاً باللغة العربية عن 'مستقبل الذكاء الاصطناعي في عام 2026' مع العناوين الفرعية."
+        )
         return response.text
     except Exception as e:
         print(f"❌ خطأ أثناء توليد المقال من Gemini: {e}")
@@ -24,7 +22,6 @@ def generate_article():
 
 # 2. إعداد الاتصال ببلوقر والنشر
 def publish_to_blogger(content):
-    # ضع معرف مدونتك المكون من أرقام هنا بين العلامتين ''
     blog_id = '6819029518868981101'
     
     if not os.path.exists('google_creds.json'):
