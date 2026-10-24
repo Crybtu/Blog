@@ -9,33 +9,36 @@ client = genai.Client(api_key=GEMINI_KEY)
 
 def generate_article():
     try:
+        # تعديل جوهري: النص البرمجي بالإنجليزية وتوجيه الذكاء الاصطناعي للكتابة بالعربية لتفادي الـ UnicodeEncodeError
+        english_prompt = "Write a comprehensive, professional, and detailed technology article entirely in Arabic about: 'The Future of Artificial Intelligence in 2026'. Include subtitles and standard web blog formatting."
+        
         response = client.models.generate_content(
             model='gemini-1.5-flash',
-            contents="اكتب مقالاً تقنياً احترافياً ومفصلاً باللغة العربية عن 'أفضل أدوات الذكاء الاصطناعي لتسهيل العمل اليومي في عام 2026' مع العناوين الفرعية وتنسيق مقالات الويب."
+            contents=english_prompt
         )
         return response.text
     except Exception as e:
-        print(f"❌ خطأ أثناء توليد المقال من Gemini: {e}")
+        print(f"❌ Error during Gemini content generation: {e}")
         raise e
 
 if __name__ == "__main__":
-    print("⏳ جاري توليد المقال الربحي من Gemini...")
+    print("⏳ Generating article from Gemini...")
     content = generate_article()
     
     html_content = content.replace("\n", "<br>")
     
-    # 💡 هنا تضع روابط التسويق بالعمولة الخاصة بك (Affiliate Links)
-    affiliate_link_1 = "https://amazon.com" # مثال لرابط منتج من أمازون
-    affiliate_link_2 = "https://hostinger.com" # مثال لرابط استضافة مواقف
+    # روابط الأفلييت الخاصة بك (يمكنك تركها كما هي أو تعديلها لاحقاً)
+    affiliate_link_1 = "https://amazon.com"
+    affiliate_link_2 = "https://hostinger.com"
     
-    # بناء صفحة ويب احترافية تحتوي على مساحات إعلانية مدمجة
+    # بناء صفحة ويب متكاملة مع مساحات إعلانية مدمجة
     web_page = f"""
     <!DOCTYPE html>
     <html lang="ar" dir="rtl">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>مدونة الذكاء الاصطناعي والربح</title>
+        <title>مدونة التقنية والذكاء الاصطناعي الذكية</title>
         <style>
             body {{ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background: #f8f9fa; color: #333; }}
             .header {{ background: #2c3e50; color: white; padding: 20px; text-align: center; }}
@@ -43,11 +46,7 @@ if __name__ == "__main__":
             h1 {{ color: #2c3e50; }}
             .date {{ color: #7f8c8d; font-size: 0.9em; }}
             .content {{ font-size: 1.1em; line-height: 1.9; color: #444; }}
-            
-            /* 📢 تنسيق المساحات الإعلانية */
             .ad-space {{ background: #fdf6e2; border: 2px dashed #f39c12; color: #d35400; text-align: center; padding: 20px; margin: 20px 0; border-radius: 6px; font-weight: bold; }}
-            
-            /* 💰 تنسيق روابط الأفلييت */
             .affiliate-box {{ background: #e8f4fd; border-left: 5px solid #3498db; padding: 20px; margin-top: 30px; border-radius: 4px; }}
             .btn-buy {{ display: inline-block; background: #e74c3c; color: white; padding: 10px 20px; text-align: center; text-decoration: none; border-radius: 4px; font-weight: bold; margin-top: 10px; }}
             .btn-buy:hover {{ background: #c0392b; }}
@@ -59,12 +58,11 @@ if __name__ == "__main__":
         </div>
         
         <div class="container">
-            <!-- 📢 مساحة إعلانية علوية (يمكنك لصق كود Adsterra أو Ezoic هنا لاحقاً) -->
             <div class="ad-space">
-                📢 مساحة إعلانية متوفرة (تظهر هنا إعلانات الشركات البديلة للربح لكل 1000 ظهور)
+                📢 مساحة إعلانية متوفرة (تظهر هنا إعلانات الشركات البديلة للربح)
             </div>
 
-            <h1>أفضل أدوات الذكاء الاصطناعي لتسهيل العمل اليومي في عام 2026</h1>
+            <h1>مستقبل الذكاء الاصطناعي في عام 2026</h1>
             <p class="date">📅 تاريخ النشر: {datetime.now().strftime('%Y-%m-%d')}</p>
             <hr>
             
@@ -72,12 +70,10 @@ if __name__ == "__main__":
                 {html_content}
             </div>
 
-            <!-- 📢 مساحة إعلانية وسط المقال لزيادة النقرات -->
             <div class="ad-space">
                 📢 مساحة إعلانية مدمجة داخل المقال (لتحقيق أعلى نسبة نقرات وأرباح)
             </div>
 
-            <!-- 💰 قسم التسويق بالعمولة (Affiliate Marketing) -->
             <div class="affiliate-box">
                 <h3>💡 توصيات كاتب المقال (روابط مدفوعة):</h3>
                 <p>إذا كنت تبحث عن الأدوات والعتاد التقني الأفضل لتطبيق ما جاء في هذا المقال، ننصحك بالاطلاع على المنتجات التالية الموصى بها بشدة:</p>
@@ -92,4 +88,4 @@ if __name__ == "__main__":
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(web_page)
         
-    print("🎉 تم تحديث القالب الربحي وحفظ الملف بنجاح!")
+    print("🎉 Success! Article page has been created and saved successfully.")
