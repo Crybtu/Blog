@@ -8,14 +8,13 @@ from googleapiclient.discovery import build
 # ضع مفتاح Gemini الخاص بك هنا بدلاً من المكتوب
 GEMINI_KEY = 'AQ.Ab8RN6K2dItsEtRCZldolMlf3TzL6r0DQDInaT06Ks16i_TTmA'
 
-# تعديل جوهري لعام 2026: تحديد إصدار الواجهة لإلغاء خطأ v1beta 404
-os.environ["GOOGLE_API_USE_CLIENT_CERTIFICATE"] = "false"
-genai.configure(api_key=GEMINI_KEY, client_options={'api_version': 'v1'})
+# الطريقة الصحيحة والمباشرة لتهيئة مكتبة Gemini الحديثة
+genai.configure(api_key=GEMINI_KEY)
 
 def generate_article():
     try:
-        # استخدام النسخة الأحدث والمستقرة والمجانية
-        model = genai.GenerativeModel('gemini-1.5-flash-latest')
+        # استخدام النموذج الأكثر استقراراً ومرونة المتوافق عالمياً
+        model = genai.GenerativeModel('gemini-1.5-flash')
         prompt = "اكتب مقالاً تقنياً احترافياً ومفصلاً باللغة العربية عن 'مستقبل الذكاء الاصطناعي في عام 2026' مع العناوين الفرعية."
         response = model.generate_content(prompt)
         return response.text
@@ -27,7 +26,7 @@ def generate_article():
 def publish_to_blogger(content):
     # ضع معرف مدونتك المكون من أرقام هنا بين العلامتين ''
     blog_id = '6819029518868981101'
-
+    
     if not os.path.exists('google_creds.json'):
         raise FileNotFoundError("❌ خطأ: ملف 'google_creds.json' غير موجود في المستودع!")
         
