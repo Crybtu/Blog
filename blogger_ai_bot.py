@@ -10,7 +10,7 @@ genai.configure(api_key=GEMINI_KEY)
 
 def generate_article():
     try:
-        model = genai.GenerativeModel('gemini-1.5-flash')
+        model = genai.GenerativeModel('gemini-pro')
         prompt = "اكتب مقالاً تقنياً احترافياً ومفصلاً باللغة العربية عن 'مستقبل الذكاء الاصطناعي في عام 2026' مع العناوين الفرعية."
         response = model.generate_content(prompt)
         return response.text
