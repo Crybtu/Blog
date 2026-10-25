@@ -18,7 +18,7 @@ def generate_article():
         # نص التوجيه بالإنجليزية لتفادي أخطاء الترميز (UnicodeEncodeError)
         prompt = "Write a new, unique, and professional technology article entirely in Arabic about a random trending tech topic in 2026. Include a catchy Arabic title and structured subtitles."
         response = client.models.generate_content(
-            model='gemini-2.5-flash', # تم تعديل اسم النموذج إلى النسخة المستقرة والأسرع
+            model='gemini-3.8-flash', # تم تعديل اسم النموذج إلى النسخة المستقرة والأسرع
             contents=prompt
         )
         return response.text
