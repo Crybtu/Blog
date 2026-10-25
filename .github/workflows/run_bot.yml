@@ -5,28 +5,25 @@ on:
     branches:
       - main
   schedule:
-    - cron: '0 0 * * *' # تشغيل تلقائي يومياً (يمكنك تعديله أو حذفه)
-  workflow_dispatch: # يتيح لك تشغيل البوت يدوياً بضغطة زر
+    - cron: '0 0 * * *'
+  workflow_dispatch:
 
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. سحب كود المستودع الحالي
+      # 1. سحب كود المستودع
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # 2. إعداد بيئة بايثون 3.10
-            # 2. إعداد بيئة بايثون 3.10 (تم حذف سطر cache: 'pip')
+      # 2. إعداد بيئة بايثون 3.10 (تم التعديل وحذف سطر الكاش هنا)
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
-          cache: 'pip'
-
-      # 3. تثبيت المكتبات اللازمة (تأكد من وجودها في ملف requirements.txt أو أضفها هنا)
+      # 3. تثبيت المكتبات اللازمة مباشرة
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
@@ -37,7 +34,7 @@ jobs:
         uses: nick-fields/retry@v3
         with:
           timeout_minutes: 10
-          max_attempts: 3        # سيعيد المحاولة حتى 3 مرات إذا فشل السيرفر
+          max_attempts: 3
           retry_on: error
           command: python blogger_ai_bot.py
         env:
@@ -54,7 +51,7 @@ jobs:
           # الرابط الصحيح والمباشر لمستودعك
           git clone https://${TOKEN}@://github.com public_folder
           
-          # نقل الملفات المنتجة إلى مجلد المستودع
+          # نقل الملفات المنتجة
           cp index.html public_folder/
           cp archive.txt public_folder/ 2>/dev/null || true
           cp post_*.html public_folder/ 2>/dev/null || true
