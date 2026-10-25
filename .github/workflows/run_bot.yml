@@ -1,40 +1,64 @@
-name: Run AI Blog Bot
+name: Blogger AI Bot Workflow
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 0 * * *' # تشغيل تلقائي يومياً (يمكنك تعديله أو حذفه)
+  workflow_dispatch: # يتيح لك تشغيل البوت يدوياً بضغطة زر
 
 jobs:
-  run-bot:
+  build-and-publish:
     runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-    
-    - uses: actions/setup-python@v5
-      with:
-        python-version: '3.10'
-        
-    - run: pip install google-genai
-    
-    - run: python blogger_ai_bot.py
-      env:
-        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
 
-    # نقل المقالات والأرشيف إلى مستودع المدونة المفتوح تلقائياً
-    - name: Push to Public Blog Repo
-      env:
-        TOKEN: ${{ secrets.PUBLIC_REPO_TOKEN }}
-      run: |
-        git config --global user.name "AI Web Bot"
-        git config --global user.email "bot@github.com"
-        
-        # صياغة نصية صريحة وثابتة بنسبة 100% مستخدمين حقل رابط مباشر لحسابك لإنهاء مشكلة قطع العناوين
-        git clone https://${TOKEN}@github.com public_folder
-        
-        cp index.html public_folder/
-        cp archive.txt public_folder/ 2>/dev/null || true
-        cp post_*.html public_folder/ 2>/dev/null || true
-        
-        cd public_folder
-        git add .
-        git commit -m "نشر مقال جديد بالأرشيف المفتوح" || exit 0
-        git push
+    steps:
+      # 1. سحب كود المستودع الحالي
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # 2. إعداد بيئة بايثون 3.10
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      # 3. تثبيت المكتبات اللازمة (تأكد من وجودها في ملف requirements.txt أو أضفها هنا)
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install google-genai tenacity
+
+      # 4. تشغيل سكربت البوت مع ميزة إعادة المحاولة التلقائية عند حدوث خطأ خادم 503
+      - name: Run Blogger AI Bot
+        uses: nick-fields/retry@v3
+        with:
+          timeout_minutes: 10
+          max_attempts: 3        # سيعيد المحاولة حتى 3 مرات إذا فشل السيرفر
+          retry_on: error
+          command: python blogger_ai_bot.py
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+
+      # 5. إعداد وإرسال الملفات الجديدة إلى المستودع بالروابط الصحيحة لحساب Crybtu
+      - name: Push Generated Articles to GitHub
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config --global user.name "AI Web Bot"
+          git config --global user.email "bot@github.com"
+          
+          # الرابط الصحيح والمباشر لمستودعك
+          git clone https://${TOKEN}@://github.com public_folder
+          
+          # نقل الملفات المنتجة إلى مجلد المستودع
+          cp index.html public_folder/
+          cp archive.txt public_folder/ 2>/dev/null || true
+          cp post_*.html public_folder/ 2>/dev/null || true
+          
+          # الدخول للمجلد ورفع التحديثات
+          cd public_folder
+          git add .
+          git commit -m "نشر مقال جديد بالأرشيف المفتوح" || exit 0
+          git push
