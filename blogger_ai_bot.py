@@ -1,30 +1,27 @@
 import os
 import re
 from google import genai
-from google.genai import types # 👈 تم إضافة مكتبة التكوين لزيادة المهلة
 from datetime import datetime
 
-# 🔒 استدعاء المفتاح بشكل آمن تماماً من الخزانة السرية لـ GitHub
+# 🔒 استدعاء المفتاح بشكل آمن من الخزانة السرية لـ GitHub
 GEMINI_KEY = os.environ.get("GEMINI_API_KEY")
 
-# 🛠️ تم تعديل تعريف العميل وزيادة وقت انتهاء المحاولة وتفادي انقطاع السيرفر
-client = genai.Client(
-    api_key=GEMINI_KEY,
-    http_options=types.HttpOptions(timeout=600.0) # تعيين المهلة لـ 10 دقائق كاملة
-)
+# 🛠️ العميل بالصيغة الافتراضية المستقرة دون إعدادات وقت يدوية مسببة للأخطاء
+client = genai.Client(api_key=GEMINI_KEY)
 
 def generate_article():
     try:
-        # نص التوجيه بالإنجليزية لتفادي أخطاء الترميز (UnicodeEncodeError)
+        # نص التوجيه بالإنجليزية لتفادي أخطاء الترميز
         prompt = "Write a new, unique, and professional technology article entirely in Arabic about a random trending tech topic in 2026. Include a catchy Arabic title and structured subtitles."
         response = client.models.generate_content(
-            model='gemini-3.8-flash', # تم تعديل اسم النموذج إلى النسخة المستقرة والأسرع
+            model='gemini-3.8-flash',
             contents=prompt
         )
         return response.text
     except Exception as e:
         print(f"❌ Error during Gemini generation: {e}")
         raise e
+
 
 def create_slug(title):
     # توليد اسم ملف فرعي يعتمد على الوقت لمنع تداخل الملفات
