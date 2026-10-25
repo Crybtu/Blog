@@ -1,18 +1,24 @@
 import os
 import re
 from google import genai
+from google.genai import types # 👈 تم إضافة مكتبة التكوين لزيادة المهلة
 from datetime import datetime
 
 # 🔒 استدعاء المفتاح بشكل آمن تماماً من الخزانة السرية لـ GitHub
 GEMINI_KEY = os.environ.get("GEMINI_API_KEY")
-client = genai.Client(api_key=GEMINI_KEY)
+
+# 🛠️ تم تعديل تعريف العميل وزيادة وقت انتهاء المحاولة وتفادي انقطاع السيرفر
+client = genai.Client(
+    api_key=GEMINI_KEY,
+    http_options=types.HttpOptions(timeout=600.0) # تعيين المهلة لـ 10 دقائق كاملة
+)
 
 def generate_article():
     try:
         # نص التوجيه بالإنجليزية لتفادي أخطاء الترميز (UnicodeEncodeError)
         prompt = "Write a new, unique, and professional technology article entirely in Arabic about a random trending tech topic in 2026. Include a catchy Arabic title and structured subtitles."
         response = client.models.generate_content(
-            model='gemini-3.8-flash',
+            model='gemini-2.5-flash', # تم تعديل اسم النموذج إلى النسخة المستقرة والأسرع
             contents=prompt
         )
         return response.text
