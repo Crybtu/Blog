@@ -1,4 +1,24 @@
-    # نقل المقالات والأرشيف إلى مستودع المدونة المفتوح تلقائياً
+name: Run AI Blog Bot
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+        
+    - run: pip install google-genai
+    
+    - run: python blogger_ai_bot.py
+      env:
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+
     - name: Push to Public Blog Repo
       env:
         TOKEN: ${{ secrets.PUBLIC_REPO_TOKEN }}
@@ -6,15 +26,12 @@
         git config --global user.name "AI Web Bot"
         git config --global user.email "bot@github.com"
         
-        # تصحيح صياغة الرابط وسحب المستودع المفتوح تلقائياً بأمان
         git clone https://$TOKEN@://github.com{{ github.repository_owner }}/Blog.git public_folder
         
-        # نسخ الملفات الناتجة إلى مجلد المستودع المفتوح
         cp index.html public_folder/
         cp archive.txt public_folder/ 2>/dev/null || true
         cp post_*.html public_folder/ 2>/dev/null || true
         
-        # الدخول للمجلد ودفع التحديثات للمستودع المفتوح
         cd public_folder
         git add .
         git commit -m "نشر مقال جديد بالأرشيف المفتوح" || exit 0
