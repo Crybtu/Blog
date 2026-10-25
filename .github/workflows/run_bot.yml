@@ -28,7 +28,7 @@ jobs:
         git config --global user.email "bot@github.com"
         
         # الرابط المصلح والنظيف تماماً بدون أقواس مكررة مكسورة
-        git clone https://${TOKEN}@://github.com{{ github.repository_owner }}/Blog.git public_folder
+        git clone https://${TOKEN}@github.com{{ github.repository_owner }}/Blog.git public_folder
         
         # نسخ الملفات الناتجة إلى مجلد المستودع المفتوح
         cp index.html public_folder/
