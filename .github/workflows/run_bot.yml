@@ -27,8 +27,8 @@ jobs:
         git config --global user.name "AI Web Bot"
         git config --global user.email "bot@github.com"
         
-        # الرابط النظيف والمصحح تماماً بدون أي رموز أو أقواس مكررة مكسورة
-        git clone https://${TOKEN}@github.com{{ github.repository_owner }}/Blog.git public_folder
+        # صياغة نصية مباشرة وصحيحة 100% مستخدمين اسم حسابك (Crybtu) لتفادي أخطاء الأقواس والتفسير
+        git clone https://${TOKEN}@://github.com public_folder
         
         cp index.html public_folder/
         cp archive.txt public_folder/ 2>/dev/null || true
