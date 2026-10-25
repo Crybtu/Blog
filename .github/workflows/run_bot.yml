@@ -27,7 +27,7 @@ jobs:
         git config --global user.name "AI Web Bot"
         git config --global user.email "bot@github.com"
         
-        # الرابط الكامل والثابت والموجه مباشرة لمستودعك المفتوح (Blog) دون سقوط أي جزء
+        # صياغة نصية صريحة وثابتة بنسبة 100% مستخدمين حقل رابط مباشر لحسابك لإنهاء مشكلة قطع العناوين
         git clone https://${TOKEN}@://github.com public_folder
         
         cp index.html public_folder/
