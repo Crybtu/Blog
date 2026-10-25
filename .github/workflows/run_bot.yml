@@ -28,7 +28,7 @@ jobs:
         git config --global user.email "bot@github.com"
         
         # صياغة نصية صريحة وثابتة بنسبة 100% مستخدمين حقل رابط مباشر لحسابك لإنهاء مشكلة قطع العناوين
-        git clone https://${TOKEN}@://github.com public_folder
+        git clone https://${TOKEN}@github.com public_folder
         
         cp index.html public_folder/
         cp archive.txt public_folder/ 2>/dev/null || true
