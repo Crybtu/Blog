@@ -27,7 +27,7 @@ jobs:
         git config --global user.name "AI Web Bot"
         git config --global user.email "bot@github.com"
         
-        # صياغة نصية مباشرة وصحيحة 100% مستخدمين اسم حسابك (Crybtu) لتفادي أخطاء الأقواس والتفسير
+        # الرابط الكامل والثابت والموجه مباشرة لمستودعك المفتوح (Blog) دون سقوط أي جزء
         git clone https://${TOKEN}@://github.com public_folder
         
         cp index.html public_folder/
