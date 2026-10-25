@@ -3,16 +3,16 @@ import re
 from google import genai
 from datetime import datetime
 
-# 💡 ضع مفتاح Gemini الفعلي الخاص بك هنا
-GEMINI_KEY = 'AQ.Ab8RN6K2dItsEtRCZldolMlf3TzL6r0DQDInaT06Ks16i_TTmA'
+# 🔒 استدعاء المفتاح بشكل آمن تماماً من الخزانة السرية لـ GitHub
+GEMINI_KEY = os.environ.get("GEMINI_API_KEY")
 client = genai.Client(api_key=GEMINI_KEY)
 
 def generate_article():
     try:
-        # استخدام التوجيه بالإنجليزية مع طلب الكتابة بالعربية لتفادي مشاكل الترميز
+        # نص التوجيه بالإنجليزية لتفادي أخطاء الترميز (UnicodeEncodeError)
         prompt = "Write a new, unique, and professional technology article entirely in Arabic about a random trending tech topic in 2026. Include a catchy Arabic title and structured subtitles."
         response = client.models.generate_content(
-            model='gemini-3.8-flash',
+            model='gemini-2.5-flash',
             contents=prompt
         )
         return response.text
@@ -21,15 +21,14 @@ def generate_article():
         raise e
 
 def create_slug(title):
-    # تحويل العنوان إلى اسم ملف إنجليزي أو رقمي بسيط لمنع مشاكل الروابط العربية
-    clean_title = re.sub(r'[^\w\s]', '', title)
+    # توليد اسم ملف فرعي يعتمد على الوقت لمنع تداخل الملفات
     return datetime.now().strftime('%Y%m%d_%H%M%S')
 
 if __name__ == "__main__":
-    print("⏳ Generating article...")
+    print("⏳ Generating article from Gemini...")
     raw_content = generate_article()
     
-    # محاولة استخراج أول سطر كعنوان للمقال
+    # محاولة استخراج السطر الأول كعنوان للمقال
     lines = [l.strip() for l in raw_content.split('\n') if l.strip()]
     article_title = lines[0].replace('#', '').strip() if lines else "مقال تقني جديد"
     
@@ -38,10 +37,10 @@ if __name__ == "__main__":
     post_filename = f"post_{file_slug}.html"
     current_date = datetime.now().strftime('%Y-%m-%d')
     
-    # 📢 روابط الأفلييت الخاصة بك
+    # 📢 ضع روابط الأفلييت والتسويق بالعمولة الخاصة بك هنا
     affiliate_link = "https://amazon.com"
     
-    # 1️⃣ بناء صفحة المقال المنفصلة
+    # 1️⃣ بناء صفحة المقال المنفصلة التي ستُنشر في المستودع المفتوح
     post_page = f"""
     <!DOCTYPE html>
     <html lang="ar" dir="rtl">
@@ -75,13 +74,11 @@ if __name__ == "__main__":
     </html>
     """
     
-    # حفظ ملف المقال الجديد
     with open(post_filename, "w", encoding="utf-8") as f:
         f.write(post_page)
     print(f"🎉 Created article file: {post_filename}")
     
-    # 2️⃣ تحديث صفحة الأرشيف الرئيسية (index.html) تلقائياً
-    # قراءة المقالات القديمة المسجلة في ملف نصي أو إضافتها للأرشيف
+    # 2️⃣ تحديث وتوليد سجل الأرشيف الآلي (archive.txt)
     archive_log = "archive.txt"
     with open(archive_log, "a", encoding="utf-8") as f:
         f.write(f"{current_date}|||{article_title}|||{post_filename}\n")
@@ -90,7 +87,7 @@ if __name__ == "__main__":
         archive_lines = f.readlines()
         
     articles_list_html = ""
-    for line in reversed(archive_lines): # ترتيب من الأحدث للأقدم
+    for line in reversed(archive_lines):
         if "|||" in line:
             p_date, p_title, p_file = line.strip().split("|||")
             articles_list_html += f"""
@@ -100,13 +97,14 @@ if __name__ == "__main__":
             </div>
             """
             
+    # 3️⃣ بناء وتحديث الصفحة الرئيسية للمدونة (index.html)
     index_page = f"""
     <!DOCTYPE html>
     <html lang="ar" dir="rtl">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>أرشيف مدونتي الذكية</title>
+        <title>مجلة الذكاء الاصطناعي</title>
         <style>
             body {{ font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; background: #f4f7f6; color: #333; }}
             .header {{ background: #2c3e50; color: white; padding: 40px; text-align: center; }}
