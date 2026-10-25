@@ -13,23 +13,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. سحب كود المستودع
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # 2. إعداد بيئة بايثون 3.10 (تم التعديل وحذف سطر الكاش هنا)
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
-      # 3. تثبيت المكتبات اللازمة مباشرة
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
           pip install google-genai tenacity
 
-      # 4. تشغيل سكربت البوت مع ميزة إعادة المحاولة التلقائية عند حدوث خطأ خادم 503
       - name: Run Blogger AI Bot
         uses: nick-fields/retry@v3
         with:
@@ -40,7 +36,6 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
 
-      # 5. إعداد وإرسال الملفات الجديدة إلى المستودع بالروابط الصحيحة لحساب Crybtu
       - name: Push Generated Articles to GitHub
         env:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -48,16 +43,13 @@ jobs:
           git config --global user.name "AI Web Bot"
           git config --global user.email "bot@github.com"
           
-          # الرابط الصحيح والمباشر لمستودعك
           git clone https://${TOKEN}@://github.com public_folder
           
-          # نقل الملفات المنتجة
           cp index.html public_folder/
           cp archive.txt public_folder/ 2>/dev/null || true
           cp post_*.html public_folder/ 2>/dev/null || true
           
-          # الدخول للمجلد ورفع التحديثات
           cd public_folder
           git add .
-          git commit -m "نشر مقال جديد بالأرشيف المفتوح" || exit 0
+          git commit -m "Publish new article to open archive" || exit 0
           git push
